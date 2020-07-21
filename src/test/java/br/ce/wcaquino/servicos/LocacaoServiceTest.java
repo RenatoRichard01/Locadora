@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 
 import java.util.Date;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -51,19 +52,29 @@ public class LocacaoServiceTest {
 		service.alugarFilme(user, filme);
 	}
 	@Test
-	public void testLocacaoUserVazio() {
+	public void testLocacaoUserVazio() throws FilmeSemEstoqException {
 		LocacaoService service = new LocacaoService();
-		Filme filme = new Filme("Filme 2",0,5.0);
+		Filme filme = new Filme("Filme 2",1,5.0);
 		
 		try {
 			service.alugarFilme(null,filme);
+			Assert.fail();
 		} catch (LocadoraException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FilmeSemEstoqException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Assert.assertThat(e.getMessage(),is("Usuario vazio"));
 		}
 		
+		System.out.println("Forma robusta");
+		
+	}
+	@Test
+	public void testLocacaoFilmeVazio() throws LocadoraException, FilmeSemEstoqException {
+		LocacaoService service = new LocacaoService();
+		Usuario user = new Usuario("Usuario 3");
+		
+		exception.expect(LocadoraException.class);
+		exception.expectMessage("Filme vazio");
+		
+		service.alugarFilme(user, null);
+		System.out.println("Forma nova");
 	}
 }
