@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.is;
 import java.util.Date;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -20,10 +21,17 @@ import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoServiceTest {
 	
+	private LocacaoService service;
+	
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
+	
+	@Before
+	public void setup() {
+		service = new LocacaoService();
+	}
 	
 	@Test
 	public void test() throws Exception {
